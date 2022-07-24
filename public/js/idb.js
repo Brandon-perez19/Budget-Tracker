@@ -32,7 +32,8 @@ request.onerror = function(event){
 };
 
 //this function will be executed if we attempt to submit and there's no internet connection
-function saveRecord(saveRecord){
+function saveRecord(record){
+
     //open a new transaction with read/write permissions
     const transaction = db.transaction(['new_budget'], 'readwrite');
 
@@ -45,7 +46,7 @@ function saveRecord(saveRecord){
 }
 
 //function to upload data 
-function uploadPizza(){
+function uploadBudget(){
     //open a transaction to the db
     const transaction = db.transaction(['new_budget'], 'readwrite');
 
@@ -53,7 +54,7 @@ function uploadPizza(){
     const budgetObjectStore = transaction.objectStore('new_budget');
 
     //get all records from store and set to a variable
-    const getAll = pizzaObjectStore.getAll();
+    const getAll = budgetObjectStore.getAll();
 
     //upon a successful .getAll(), run this function
     getAll.onsuccess = function() {
@@ -75,8 +76,8 @@ function uploadPizza(){
 
                 //open one more transaction
                 const transaction = db.transaction(['new_budget'], 'readwrite');
-                //access the new_pizza object store
-                const pizzaObjectStore = transaction.objectStore('new_budget');
+                //access the object store
+                const budgetObjectStore = transaction.objectStore('new_budget');
                 //clear all items in your store
                 budgetObjectStore.clear();
 
@@ -90,4 +91,4 @@ function uploadPizza(){
 }
 
 //listens to see if the browser has connected to the internet
-window.addEventListener('online', uploadPizza);
+window.addEventListener('online', uploadBudget);
